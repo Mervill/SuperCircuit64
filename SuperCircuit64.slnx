@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="CircuitConsole/CircuitConsole.csproj" />
+  <Project Path="SuperCircuit64/SuperCircuit64.csproj" />
+</Solution>
