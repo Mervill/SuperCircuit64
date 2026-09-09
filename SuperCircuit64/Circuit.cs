@@ -14,10 +14,24 @@ public sealed class Circuit
 
     public bool HasNonLinear => _hasNonlinearElements;
 
+    /// <summary>
+    /// Turns on the per-step stamp/solve timers behind <see cref="LastStampMS"/> and
+    /// <see cref="LastSolveMS"/>. Off by default.
+    /// </summary>
     public bool Stopwatches { get; set; }
 
+    /// <summary>
+    /// Last duration of circuit stamping in <see cref="Step"/>, in milliseconds,
+    /// or -1 when <see cref="Stopwatches"/> is off. On the Newton path this is
+    /// the sum over every iteration of that step, not the last iteration alone.
+    /// </summary>
     public double LastStampMS { get; private set; } = -1;
 
+    /// <summary>
+    /// Last duration of <see cref="MnaBuilder.Solve"/>, in milliseconds, or -1 when
+    /// <see cref="Stopwatches"/> is off. Summed over Newton iterations the same way
+    /// <see cref="LastStampMS"/> is.
+    /// </summary>
     public double LastSolveMS { get; private set; } = -1;
 
     private readonly List<ICircuitElement> _elements = new();
@@ -39,6 +53,9 @@ public sealed class Circuit
             _topologyDirty = true;
     }
 
+    /// <summary>
+    /// Advances the circuit by <paramref name="deltaTime"/> and returns the solved state.
+    /// </summary>
     public CircuitState Step(double deltaTime)
     {
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(deltaTime, 0.0);

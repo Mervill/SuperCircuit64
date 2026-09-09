@@ -33,6 +33,10 @@ public sealed class MnaBuilder
         Reconfigure(unknownCount);
     }
 
+    /// <summary>
+    /// (Re)builds the stamp workspace for a new topology, reusing prior backing arrays when their
+    /// capacity already covers the new unknown count instead of reallocating on every topology change.
+    /// </summary>
     internal void Reconfigure(int unknownCount)
     {
         _unknownCount = unknownCount;
@@ -85,6 +89,10 @@ public sealed class MnaBuilder
         _slots.Clear();
     }
 
+    /// <summary>
+    /// Resets accumulated values ahead of a new stamp cycle. Once the sparsity pattern and factorization
+    /// workspace from a prior cycle are established, they are kept and only their values are cleared.
+    /// </summary>
     internal void BeginStamp()
     {
         Array.Clear(_righthandSide, 0, _unknownCount);
@@ -98,6 +106,8 @@ public sealed class MnaBuilder
 
     private static long CellKey(int row, int col)
         => ((long)row << 32) | (uint)col;
+
+    #region Stamping
 
     private void Accumulate(int row, int col, double value)
     {
@@ -261,6 +271,8 @@ public sealed class MnaBuilder
         _lu.Solve(_righthandSide.AsSpan(0, _unknownCount), _resultVector.AsSpan(0, _unknownCount));
         return _resultVector;
     }
+
+    #endregion
 
     private void EstablishPattern()
     {
