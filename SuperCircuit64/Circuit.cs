@@ -10,6 +10,10 @@ public sealed class Circuit
 
     public const int MaxNewtonIterations = 100;
 
+    public const double AbsoluteTolerance = 1e-6;
+
+    public const double RelativeTolerance = 1e-4;
+
     public double Time { get; private set; }
 
     public bool HasNonLinear => _hasNonlinearElements;
@@ -58,7 +62,7 @@ public sealed class Circuit
     /// </summary>
     public CircuitState Step(double deltaTime)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(deltaTime, 0.0);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(deltaTime);
 
         WalkTopology();
 
@@ -140,10 +144,10 @@ public sealed class Circuit
         throw new InvalidOperationException($"Newton-Raphson failed to converge within {MaxNewtonIterations} iterations.");
     }
 
-    private void WalkTopology()
+    public bool WalkTopology()
     {
         if (!_topologyDirty)
-            return;
+            return false;
 
         int nodeCount = 0;
         _hasNonlinearElements = false;
@@ -178,5 +182,9 @@ public sealed class Circuit
         }
 
         _topologyDirty = false;
+        return true;
     }
+
+    public static bool HasConverged(double iterate, double previousIterate)
+        => Math.Abs(iterate - previousIterate) < AbsoluteTolerance + RelativeTolerance * Math.Abs(iterate);
 }

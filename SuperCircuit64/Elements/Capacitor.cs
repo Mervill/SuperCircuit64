@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace SuperCircuit64.Elements;
 
+/// <summary>
+/// Companion model: a conductance in parallel with a current source carrying history state from the
+/// previous step. The conductance and current-source formulas depend on <see cref="Method"/>.
+/// </summary>
 public sealed class Capacitor : ICircuitElement
 {
     public int NodeA { get; }
@@ -16,7 +20,7 @@ public sealed class Capacitor : ICircuitElement
 
     public Capacitor(int nodeA, int nodeB, double capacitance, double initialVoltage = 0.0, IntegrationMethod method = IntegrationMethod.BackwardEuler)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(capacitance, 0.0);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(capacitance);
 
         NodeA = nodeA;
         NodeB = nodeB;

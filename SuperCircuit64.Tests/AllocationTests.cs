@@ -41,6 +41,21 @@ public class AllocationTests
     }
 
     [Fact]
+    public void Step_IsZeroAllocOnceTopologyIsStable_WithNewtonIteration()
+    {
+        var circuit = new Circuit();
+        circuit.Add(new VoltageSource(1, Circuit.Ground, new DcWaveform(5.0)));
+        circuit.Add(new Resistor(1, 2, 1_000.0));
+        circuit.Add(new Diode(2, Circuit.Ground));
+        circuit.Step(1e-6); // cold: builds topology and runs the first Newton-Raphson solve
+
+        const int iterations = 1000;
+        long warmAllocatedPerStep = Alloc.Measure(() => circuit.Step(1e-6), iterations) / iterations;
+        Assert.True(warmAllocatedPerStep == 0,
+            $"expected a step on a stable topology to be zero-alloc, but it allocated {warmAllocatedPerStep} bytes");
+    }
+
+    [Fact]
     public void GrowingTopology_AllocatesLessThanBuildingFromScratch()
     {
         var circuit = BuildRcCircuit();

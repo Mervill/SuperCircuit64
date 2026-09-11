@@ -12,7 +12,7 @@ public sealed class Resistor : ICircuitElement
 
     public Resistor(int nodeA, int nodeB, double resistance)
     {
-        ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(resistance, 0.0);
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(resistance);
 
         NodeA = nodeA;
         NodeB = nodeB;
