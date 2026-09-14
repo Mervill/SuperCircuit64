@@ -16,9 +16,15 @@ public sealed class Diode : ICircuitElement
     public double IdealityFactor { get; set; } // TODO: validate - the setter bypasses the constructor's positive-value check.
     public double MinimumConductance { get; set; } // TODO: validate - the setter bypasses the constructor's non-negative check.
 
+    /// <summary>
+    /// Thermal voltage scaled by <see cref="IdealityFactor"/>.
+    /// </summary>
     private double Vt
         => IdealityFactor * PhysicalConstants.ThermalVoltage;
 
+    /// <summary>
+    /// Forward voltage past which <see cref="LimitVoltage"/> starts damping the Newton step.
+    /// </summary>
     private double VCrit
         => Vt * Math.Log(Vt / (SaturationCurrent * Math.Sqrt(2.0)));
 

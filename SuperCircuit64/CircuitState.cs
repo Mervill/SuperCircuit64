@@ -8,13 +8,13 @@ public sealed class CircuitState
 
     public double Time { get; private set; }
 
-    public double IterationNumber { get; private set; }
+    public int IterationNumber { get; private set; }
 
     internal CircuitState()
     {
     }
 
-    internal void Update(double time, double iterationNumber, double[] resultVector)
+    internal void Update(double time, int iterationNumber, double[] resultVector)
     {
         Time = time;
         IterationNumber = iterationNumber;

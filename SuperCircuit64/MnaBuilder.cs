@@ -120,6 +120,10 @@ public sealed class MnaBuilder
         _coordinateStorage!.At(row, col, value);
     }
 
+
+    /// <summary>
+    /// Stamps a conductance between two nodes.
+    /// </summary>
     public void AddConductance(int nodeA, int nodeB, double conductance)
     {
         int a = MapNode(nodeA);
@@ -138,6 +142,20 @@ public sealed class MnaBuilder
         }
     }
 
+    /// <summary>
+    /// Stamps 1/r conductance between two nodes.
+    /// </summary>
+    /// <remarks>
+    /// Prefer <see cref="AddConductance"/>
+    /// </remarks>
+    public void AddResistance(int nodeA, int nodeB, double resistance)
+    {
+        AddConductance(nodeA, nodeB, 1 / resistance);
+    }
+
+    /// <summary>
+    /// Stamps an independent current source pushing `magnitude` amps from `fromNode` to `toNode` through the element.
+    /// </summary>
     public void AddCurrentSource(int fromNode, int toNode, double magnitude)
     {
         int a = MapNode(fromNode);
@@ -150,6 +168,9 @@ public sealed class MnaBuilder
             _righthandSide[b] += magnitude;
     }
 
+    /// <summary>
+    /// Stamps an ideal voltage source with the provided branch-current unknown.
+    /// </summary>
     public void AddVoltageSource(int positiveNode, int negativeNode, int branchIndex, double voltage)
     {
         int p = MapNode(positiveNode);
@@ -256,6 +277,8 @@ public sealed class MnaBuilder
             Accumulate(on, controlBranchIndex, gain);
     }
 
+    #endregion
+
     internal double[] Solve()
     {
         if (_columnStorageValues is null)
@@ -271,8 +294,6 @@ public sealed class MnaBuilder
         _lu.Solve(_righthandSide.AsSpan(0, _unknownCount), _resultVector.AsSpan(0, _unknownCount));
         return _resultVector;
     }
-
-    #endregion
 
     private void EstablishPattern()
     {
