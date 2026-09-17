@@ -22,7 +22,7 @@ public class RlChargingTests
         var circuit = new Circuit();
         circuit.Add(new VoltageSource(1, Circuit.Ground, new DcWaveform(vs)));
         circuit.Add(new Resistor(1, 2, r));
-        circuit.Add(new Inductor(2, Circuit.Ground, l));
+        circuit.Add(new Inductor(2, Circuit.Ground, l, method: IntegrationMethod.BackwardEuler));
         double t = 0.0;
 
         for (int i = 0; i < 20_000; i++)

@@ -6,6 +6,10 @@ public interface ICircuitElement
 {
     IEnumerable<int> Nodes { get; }
 
+    int InternalNodeCount => 0;
+
+    void AssignInternalNodes(int firstInternalNode) { }
+
     /// <summary>
     /// Number of branch-current unknowns this element needs.
     /// </summary>

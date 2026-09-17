@@ -25,7 +25,7 @@ public class AcSteadyStateTests
         circuit.Add(new Capacitor(2, Circuit.Ground, c));
 
         const int settlePeriods = 19;
-        for (int i = 0; i < (int)(settlePeriods * 2_000); i++)
+        for (int i = 0; i < (settlePeriods * 2_000); i++)
             circuit.Step(dt);
 
         const int samples = 2_000;

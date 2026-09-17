@@ -5,7 +5,7 @@ Modified Nodal Analysis solver for transient (i.e. time based) circuit simulatio
 - End goal is to have a circuit simulator that can be used by games that want to have
   realistic-ish circuit networks to within a tunable(?) accuracy/tolerance.
 
-### Currently Work:
+### Current Work:
 
 - Build a MNA solver that agrees with other popular circuit simulations (Falstad, uSimmics)
   to acceptable tolerance.

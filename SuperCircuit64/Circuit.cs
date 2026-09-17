@@ -160,7 +160,17 @@ public sealed class Circuit
                 _hasNonlinearElements = true;
         }
 
-        int branch = nodeCount;
+        int internalNode = nodeCount + 1;
+        foreach (var element in _elements)
+        {
+            if (element.InternalNodeCount == 0)
+                continue;
+
+            element.AssignInternalNodes(internalNode);
+            internalNode += element.InternalNodeCount;
+        }
+
+        int branch = internalNode - 1;
         foreach (var element in _elements)
         {
             if (element.BranchCount == 0)
