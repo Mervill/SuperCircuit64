@@ -23,7 +23,7 @@ public sealed class Diode : ICircuitElement
         => IdealityFactor * PhysicalConstants.ThermalVoltage;
 
     /// <summary>
-    /// Forward voltage past which <see cref="LimitVoltage"/> starts damping the Newton step.
+    /// Forward voltage past which <see cref="SpiceMath.Pnjlim"/> starts damping the Newton step.
     /// </summary>
     private double VCrit
         => Vt * Math.Log(Vt / (SaturationCurrent * Math.Sqrt(2.0)));
@@ -68,9 +68,9 @@ public sealed class Diode : ICircuitElement
     public bool UpdateIterate(CircuitState state)
     {
         double proposed = state.Voltage(NodeAnode) - state.Voltage(NodeCathode);
-        double limited = LimitVoltage(proposed, _voltage, Vt, VCrit);
+        double limited = SpiceMath.Pnjlim(proposed, _voltage, Vt, VCrit, out bool wasLimited);
 
-        bool converged = Circuit.HasConverged(limited, _voltage);
+        bool converged = !wasLimited && Circuit.HasConverged(limited, _voltage);
         _voltage = limited;
         return converged;
     }
@@ -79,15 +79,5 @@ public sealed class Diode : ICircuitElement
     {
         double voltage = state.Voltage(NodeAnode) - state.Voltage(NodeCathode);
         return SaturationCurrent * (Math.Exp(voltage / Vt) - 1.0) + MinimumConductance * voltage;
-    }
-
-    public static double LimitVoltage(double proposed, double previous, double vt, double vcrit)
-    {
-        if (proposed <= vcrit || Math.Abs(proposed - previous) <= 2.0 * vt)
-            return proposed;
-
-        return previous > 0.0
-            ? previous + vt * Math.Log(1.0 + (proposed - previous) / vt)
-            : vt * Math.Log(proposed / vt);
     }
 }
