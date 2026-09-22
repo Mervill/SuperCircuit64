@@ -31,6 +31,8 @@ public interface ICircuitElement
     /// </summary>
     void Commit(CircuitState state, double deltaTime) { }
 
+    void AbandonAttempt() { }
+
     bool IsNonlinear => false;
 
     bool UpdateIterate(CircuitState state)

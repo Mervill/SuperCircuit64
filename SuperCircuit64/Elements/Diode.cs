@@ -30,6 +30,8 @@ public sealed class Diode : ICircuitElement
 
     private double _voltage;
 
+    private double _committedVoltage;
+
     public bool IsNonlinear => true;
 
     public Diode(int nodeAnode, int nodeCathode, double saturationCurrent = DefaultSaturationCurrent, double idealityFactor = DefaultIdealityFactor, double minimumConductance = DefaultMinimumConductance)
@@ -74,6 +76,12 @@ public sealed class Diode : ICircuitElement
         _voltage = limited;
         return converged;
     }
+
+    public void Commit(CircuitState state, double deltaTime)
+        => _committedVoltage = _voltage;
+
+    public void AbandonAttempt()
+        => _voltage = _committedVoltage;
 
     public double Current(CircuitState state)
     {
