@@ -1,5 +1,11 @@
 namespace SuperCircuit64;
 
+/// <summary>
+/// Physical constants shared by the semiconductor device models.
+/// </summary>
+/// <remarks>
+/// Values here are from CODATA 1998, which is what uSimmics uses.
+/// </remarks>
 public static class PhysicalConstants
 {
     /// <summary>
@@ -8,16 +14,13 @@ public static class PhysicalConstants
     public const double BoltzmannConstant = 1.3806503e-23;
 
     /// <summary>
-    /// Elementary charge, in coulombs (CODATA 1998).
+    /// Elementary charge, in Coulombs (CODATA 1998).
     /// </summary>
     public const double ElementaryCharge = 1.602176462e-19;
 
     /// <summary>
-    /// Nominal junction temperature in kelvin. 300 K is 26.85 °C.
+    /// Nominal junction temperature in Kelvin. 300 K is 26.85 °C.
     /// </summary>
-    /// <remarks>
-    /// uSimmics's default `Temp`/`Tnom` for both its diode and its BJT.
-    /// </remarks>
     public const double NominalTemperatureKelvin = 300.0;
 
     /// <summary>
