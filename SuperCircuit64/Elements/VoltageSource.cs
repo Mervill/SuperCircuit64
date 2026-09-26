@@ -19,7 +19,7 @@ public sealed class VoltageSource : ICircuitElement
         Waveform = waveform;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

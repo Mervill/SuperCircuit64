@@ -29,7 +29,7 @@ public sealed class Capacitor : ICircuitElement
         _voltage = initialVoltage;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

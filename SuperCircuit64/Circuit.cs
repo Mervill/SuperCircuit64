@@ -142,7 +142,7 @@ public sealed class Circuit
                     throw NonConvergence(end, deltaTime, h, depth);
 
                 foreach (var element in _elements)
-                    element.AbandonAttempt();
+                    element.Rollback();
 
                 depth++;
                 position <<= 1;
@@ -249,7 +249,7 @@ public sealed class Circuit
 
             bool converged = true;
             foreach (var element in _elements)
-                if (!element.UpdateIterate(_state))
+                if (!element.Relinearize(_state))
                     converged = false;
 
             if (converged)
@@ -268,7 +268,7 @@ public sealed class Circuit
         _hasNonlinearElements = false;
         foreach (var element in _elements)
         {
-            foreach (var node in element.Nodes)
+            foreach (var node in element.Terminals)
                 nodeCount = Math.Max(nodeCount, node);
 
             if (element.IsNonlinear)

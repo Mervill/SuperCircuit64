@@ -47,7 +47,7 @@ public sealed class Diode : ICircuitElement
         MinimumConductance = minimumConductance;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {
@@ -67,7 +67,7 @@ public sealed class Diode : ICircuitElement
         builder.AddCurrentSource(NodeCathode, NodeAnode, ieq);
     }
 
-    public bool UpdateIterate(CircuitState state)
+    public bool Relinearize(CircuitState state)
     {
         double proposed = state.Voltage(NodeAnode) - state.Voltage(NodeCathode);
         double limited = SpiceMath.Pnjlim(proposed, _voltage, Vt, VCrit, out bool wasLimited);
@@ -80,7 +80,7 @@ public sealed class Diode : ICircuitElement
     public void Commit(CircuitState state, double deltaTime)
         => _committedVoltage = _voltage;
 
-    public void AbandonAttempt()
+    public void Rollback()
         => _voltage = _committedVoltage;
 
     public double Current(CircuitState state)

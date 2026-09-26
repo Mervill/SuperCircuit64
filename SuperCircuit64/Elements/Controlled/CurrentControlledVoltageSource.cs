@@ -23,7 +23,7 @@ public sealed class CurrentControlledVoltageSource : ICircuitElement
         Transresistance = transresistance;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

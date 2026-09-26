@@ -17,7 +17,7 @@ public sealed class CurrentSource : ICircuitElement
         Waveform = waveform;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

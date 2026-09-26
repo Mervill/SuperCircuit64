@@ -20,7 +20,7 @@ public sealed class VoltageControlledCurrentSource : ICircuitElement
         Transconductance = transconductance;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

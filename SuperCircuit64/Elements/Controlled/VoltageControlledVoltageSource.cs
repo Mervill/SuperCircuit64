@@ -22,7 +22,7 @@ public sealed class VoltageControlledVoltageSource : ICircuitElement
         Gain = gain;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

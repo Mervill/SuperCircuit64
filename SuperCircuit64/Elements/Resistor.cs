@@ -19,7 +19,7 @@ public sealed class Resistor : ICircuitElement
         Resistance = resistance;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {

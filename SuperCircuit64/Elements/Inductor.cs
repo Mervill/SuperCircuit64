@@ -29,7 +29,7 @@ public sealed class Inductor : ICircuitElement
         _current = initialCurrent;
     }
 
-    public IEnumerable<int> Nodes
+    public IEnumerable<int> Terminals
     {
         get
         {
