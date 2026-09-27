@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SuperCircuit64\SuperCircuit64.csproj" />
+    <ProjectReference Include="..\..\SuperCircuit64\SuperCircuit64.csproj" />
   </ItemGroup>
 
 </Project>
