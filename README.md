@@ -53,3 +53,10 @@ extremely sparse. Other optimizations are planned if/when hot-spots are found du
     - Properly tuned linear equivalents to nonlinear elements exist, likely suitable for games.
     - Properly tuned nonlinear elements can have predictable convergence characteristics.
 
+## Tests
+
+- **`Tests/SuperCircuit64.Tests`**: checks the solver against closed-form solutions (RC/RL
+  charging, AC steady state, diode behaviour) and asserts that a stable step allocates 0 bytes.
+- **`Tests/SuperCircuit64.Tests.uSimmics`**: replays transient datasets exported from uSimmics and
+  asserts every sample, for circuits with no closed-form answer such as rectifiers. See its
+  [README](Tests/SuperCircuit64.Tests.uSimmics/README.md).
