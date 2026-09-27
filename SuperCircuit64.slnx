@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/Tests/">
+    <Project Path="Tests/SuperCircuit64.Tests.uSimmics/SuperCircuit64.Tests.uSimmics.csproj" />
     <Project Path="Tests/SuperCircuit64.Tests/SuperCircuit64.Tests.csproj" />
   </Folder>
   <Project Path="CircuitConsole/CircuitConsole.csproj" />

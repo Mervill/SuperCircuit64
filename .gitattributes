@@ -1,2 +1,10 @@
 # Default: normalise text to LF in the repository, check out CRLF in the working tree.
 * text=auto eol=crlf
+
+# uSimmics / QucsStudio sources must stay LF -- the tool breaks on CRLF.
+*.sch text eol=lf
+*.net text eol=lf
+
+# QucsStudio's proprietary "QucsData" datasets are binary: they carry NUL bytes and bare
+# LF/CR bytes inside float payloads, so any line-ending conversion corrupts them.
+*.dat binary
