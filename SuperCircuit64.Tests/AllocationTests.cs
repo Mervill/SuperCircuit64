@@ -32,7 +32,7 @@ public class AllocationTests
     public void Step_IsZeroAllocOnceTopologyIsStable()
     {
         var circuit = BuildRcCircuit();
-        circuit.Step(1e-6); // cold: builds topology, establishes the sparse pattern, factorizes once
+        circuit.Step(1e-6); // cold: builds topology and establishes the sparse pattern
 
         const int iterations = 1000;
         long warmAllocatedPerStep = Alloc.Measure(() => circuit.Step(1e-6), iterations) / iterations;

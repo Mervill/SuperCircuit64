@@ -24,10 +24,16 @@ public class AcSteadyStateTests
         circuit.Add(new Resistor(1, 2, r));
         circuit.Add(new Capacitor(2, Circuit.Ground, c));
 
+        // Discard the start-up transient before measuring. tau = R * C = 0.1 ms here, 10x shorter
+        // than the 1 ms source period (see RcChargingTests for what tau is and why every duration in
+        // these tests is quoted as a multiple of it). Settling for 19 periods = 19 ms = 190 tau
+        // leaves a residual of e^-190, i.e. nothing measurable, so the 20th period below is pure
+        // periodic steady state and the phasor comparison is not polluted by the initial condition.
         const int settlePeriods = 19;
         for (int i = 0; i < (settlePeriods * 2_000); i++)
             circuit.Step(dt);
 
+        // Collect exactly one more full period and extract amplitude/phase via quadrature projection.
         const int samples = 2_000;
         double a = 0.0, b = 0.0; // V(t) ~= a*sin(wt) + b*cos(wt)
         for (int i = 0; i < samples; i++)

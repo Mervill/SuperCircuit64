@@ -29,8 +29,9 @@ public sealed class MnaBuilder
         // the exact nnz after every factorization (CSparse's default): pivoting can shift
         // nnz(L)+nnz(U) by a few entries between refactorizations even with a fixed sparsity
         // pattern, so trimming forces a reallocation almost every step. This is a process-wide
-        // static switch on CompressedColumnStorage<double>. Safe here because MnaBuilder is the
-        // only CSparse consumer.
+        // static switch on CompressedColumnStorage<double>, so it also applies to any other
+        // CSparse use in the host process. The cost there is only memory (buffers stay at their
+        // high-water mark), but a host that depends on trimming will need to set it back itself.
         CompressedColumnStorage<double>.AutoTrimStorage = false;
     }
 
@@ -160,7 +161,7 @@ public sealed class MnaBuilder
     }
 
     /// <summary>
-    /// Stamps an independent current source pushing `magnitude` amps from `fromNode` to `toNode` through the element.
+    /// Stamps an independent current source pushing <paramref name="magnitude"/> amps from <paramref name="fromNode"/> to <paramref name="toNode"/> through the element.
     /// </summary>
     public void AddCurrentSource(int fromNode, int toNode, double magnitude)
     {
@@ -199,7 +200,7 @@ public sealed class MnaBuilder
 
     /// <summary>
     /// Stamps an ideal voltage-controlled voltage source: the output branch is constrained to
-    /// `gain` times the (unforced) controlling node-pair voltage plus `offset`, and the
+    /// <paramref name="gain"/> times the (unforced) controlling node-pair voltage plus <paramref name="offset"/>, and the
     /// controlling terminals draw no current.
     /// </summary>
     public void AddVoltageControlledVoltageSource(int outPositive, int outNegative, int controlPositive, int controlNegative, int branchIndex, double gain, double offset = 0.0)
@@ -231,8 +232,8 @@ public sealed class MnaBuilder
     }
 
     /// <summary>
-    /// Stamps an ideal voltage-controlled current source: `transconductance` times the controlling
-    /// node-pair voltage flows from `outNegative` to `outPositive`, and the controlling terminals
+    /// Stamps an ideal voltage-controlled current source: <paramref name="transconductance"/> times the controlling
+    /// node-pair voltage flows from <paramref name="outNegative"/> to <paramref name="outPositive"/>, and the controlling terminals
     /// draw no current.
     /// </summary>
     public void AddTransconductance(int outPositive, int outNegative, int controlPositive, int controlNegative, double transconductance)
@@ -263,7 +264,7 @@ public sealed class MnaBuilder
 
     /// <summary>
     /// Stamps an ideal current-controlled voltage source: the output branch is constrained to
-    /// `transresistance` times the controlling branch's current unknown.
+    /// <paramref name="transresistance"/> times the controlling branch's current unknown.
     /// </summary>
     public void AddCurrentControlledVoltageSource(int outPositive, int outNegative, int branchIndex, int controlBranchIndex, double transresistance)
     {
@@ -286,8 +287,8 @@ public sealed class MnaBuilder
     }
 
     /// <summary>
-    /// Stamps an ideal current-controlled current source: `gain` times the controlling branch's
-    /// current unknown flows from `outNegative` to `outPositive`.
+    /// Stamps an ideal current-controlled current source: <paramref name="gain"/> times the controlling branch's
+    /// current unknown flows from <paramref name="outNegative"/> to <paramref name="outPositive"/>.
     /// </summary>
     public void AddCurrentControlledCurrentSource(int outPositive, int outNegative, int controlBranchIndex, double gain)
     {
