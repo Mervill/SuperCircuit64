@@ -2,6 +2,15 @@ using System.Collections.Generic;
 
 namespace SuperCircuit64.Elements.Controlled;
 
+/// <summary>
+/// An ideal voltage-controlled voltage source: holds
+/// V(OutputPositive) - V(OutputNegative) at <see cref="Gain"/> times
+/// V(ControlPositive) - V(ControlNegative). The control terminals draw no current.
+/// </summary>
+/// <remarks>
+/// The output is a voltage constraint, so it takes one branch unknown, the output current.
+/// <see cref="OperationalAmplifier"/> uses the same stamp with a linearized gain and offset.
+/// </remarks>
 public sealed class VoltageControlledVoltageSource : ICircuitElement
 {
     public int OutputPositive { get; }

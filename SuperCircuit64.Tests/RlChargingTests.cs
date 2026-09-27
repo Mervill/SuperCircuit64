@@ -59,8 +59,8 @@ public class RlChargingTests
         const double dt = 1e-8;
         const double tau = l / r; // 10 us
 
-        // Same h = dt / tau = 1e-3 and same 20 tau span as the backward-Euler case above, held
-        // identical on purpose so the only variable between the two tests is the integration method.
+        // Same h = dt / tau = 1e-3 and 20 tau span as the backward-Euler case above, so the two tests
+        // differ only in integration method.
         var circuit = new Circuit();
         circuit.Add(new VoltageSource(1, Circuit.Ground, new DcWaveform(vs)));
         circuit.Add(new Resistor(1, 2, r));

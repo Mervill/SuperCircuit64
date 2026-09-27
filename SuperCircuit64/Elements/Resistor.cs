@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace SuperCircuit64.Elements;
 
+/// <summary>
+/// An ideal linear resistor between <see cref="NodeA"/> and <see cref="NodeB"/>, stamped as the
+/// conductance 1 / <see cref="Resistance"/>.
+/// </summary>
 public sealed class Resistor : ICircuitElement
 {
     public int NodeA { get; }

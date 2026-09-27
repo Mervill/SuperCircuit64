@@ -2,6 +2,18 @@ using System.Collections.Generic;
 
 namespace SuperCircuit64.Elements.Controlled;
 
+/// <summary>
+/// An ideal current-controlled voltage source: holds
+/// V(OutputPositive) - V(OutputNegative) at <see cref="Transresistance"/> times the control
+/// current.
+/// </summary>
+/// <remarks>
+/// The control current is sensed by a zero-volt source between <see cref="ControlPositive"/> and
+/// <see cref="ControlNegative"/>, so the control port sits in series with the branch it measures
+/// and shorts those two nodes together; it is positive flowing from
+/// <see cref="ControlPositive"/> through the element to <see cref="ControlNegative"/>. Two branch
+/// unknowns: that sensing current, and the output current the voltage constraint needs.
+/// </remarks>
 public sealed class CurrentControlledVoltageSource : ICircuitElement
 {
     public int OutputPositive { get; }

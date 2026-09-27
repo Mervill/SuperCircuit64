@@ -2,6 +2,18 @@ using System.Collections.Generic;
 
 namespace SuperCircuit64.Elements.Controlled;
 
+/// <summary>
+/// An ideal current-controlled current source: drives <see cref="Gain"/> times the
+/// control current out of <see cref="OutputPositive"/> into the circuit, returning through
+/// <see cref="OutputNegative"/>.
+/// </summary>
+/// <remarks>
+/// The control current is sensed by a zero-volt source between <see cref="ControlPositive"/> and
+/// <see cref="ControlNegative"/>, so the control port sits in series with the branch it measures
+/// and shorts those two nodes together; it is positive flowing from
+/// <see cref="ControlPositive"/> through the element to <see cref="ControlNegative"/>. That sensing
+/// branch is the element's one branch unknown.
+/// </remarks>
 public sealed class CurrentControlledCurrentSource : ICircuitElement
 {
     public int OutputPositive { get; }
@@ -51,7 +63,8 @@ public sealed class CurrentControlledCurrentSource : ICircuitElement
         => state.Branch(_controlBranchIndex);
 
     /// <summary>
-    /// Current flowing from the output positive to negative terminal through the source.
+    /// Current driven out of <see cref="OutputPositive"/> into the circuit, which is the current
+    /// flowing from the output negative to positive terminal through the source.
     /// </summary>
     public double Current(CircuitState state)
         => Gain * state.Branch(_controlBranchIndex);

@@ -88,6 +88,11 @@ public sealed class Diode : ICircuitElement
         double junctionCurrent = SaturationCurrent * (Math.Exp(_voltage / Vt) - 1.0);
         double geq = (junctionCurrent + SaturationCurrent) / Vt + MinimumConductance;
 
+        // The shunt is a plain resistor, i = MinimumConductance * v, whose tangent at any bias passes
+        // through the origin. Its Norton companion is therefore the conductance alone with no
+        // current source: its MinimumConductance * _voltage appears once inside geq * _voltage and
+        // once in the total current, and the two cancel in ieq. So the floor adds to geq only, and
+        // ieq is the junction's companion current unchanged.
         double ieq = geq * _voltage - (junctionCurrent + MinimumConductance * _voltage);
 
         builder.AddConductance(NodeAnode, NodeCathode, geq);

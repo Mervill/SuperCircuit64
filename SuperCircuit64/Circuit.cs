@@ -40,7 +40,7 @@ public sealed class Circuit
 
     public double Time { get; private set; }
 
-    public bool HasNonLinear => _hasNonlinearElements;
+    public bool HasNonlinear => _hasNonlinearElements;
 
     /// <summary>
     /// How deep <see cref="Step"/> may halve a step that will not converge, from 0 through

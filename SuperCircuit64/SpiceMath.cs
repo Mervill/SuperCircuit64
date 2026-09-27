@@ -13,7 +13,7 @@ public static class SpiceMath
     /// <param name="vt">Thermal voltage.</param>
     /// <param name="vcrit">Critical voltage.</param>
     /// <param name="limited">
-    /// True if the voltage was altered. The caller should treat the iteration 
+    /// True if the voltage was altered. The caller should treat the iteration
     /// as non-converged.
     /// </param>
     /// <returns>

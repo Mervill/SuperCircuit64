@@ -85,9 +85,10 @@ public interface ICircuitElement
     /// <paramref name="time"/>, <paramref name="deltaTime"/> long.
     /// </summary>
     /// <remarks>
-    /// Must stamp the same cells in the same order on every call, writing zero rather than skipping
-    /// a cell; see the zero-allocation notes on <see cref="MnaBuilder"/>. On the Newton path this
-    /// runs once per iteration, linearized about the point <see cref="Relinearize"/> last chose.
+    /// The first stamp after a topology rebuild fixes the sparsity pattern, and stamping a cell it
+    /// did not include throws <see cref="KeyNotFoundException"/>. Write zero rather than skip a cell
+    /// whose value can be zero. On the Newton path this runs once per iteration, linearized about
+    /// the point <see cref="Relinearize"/> last chose.
     /// </remarks>
     void Stamp(MnaBuilder builder, double time, double deltaTime);
 

@@ -41,9 +41,8 @@ public class RcChargingTests
         circuit.Add(new Capacitor(2, Circuit.Ground, c, method: IntegrationMethod.BackwardEuler));
         double t = 0.0;
 
-        // 20_000 steps * 1e-7 s = 2 ms = 2 tau: covers the steepest part of the curve up to 86.5%
-        // charged. This is deliberately a transient-accuracy test, not a steady-state test - see
-        // CapacitorVoltage_ApproachesSourceAtSteadyState for the latter.
+        // 20_000 steps * 1e-7 s = 2 ms = 2 tau, the steep part of the curve up to 86.5% charged.
+        // CapacitorVoltage_ApproachesSourceAtSteadyState checks the final value.
         for (int i = 0; i < 20_000; i++)
         {
             var state = circuit.Step(dt);
@@ -62,9 +61,8 @@ public class RcChargingTests
         const double dt = 1e-7;
         const double tau = r * c; // 1 ms
 
-        // Same h = dt / tau = 1e-4 as the backward-Euler case above, held identical on purpose: the
-        // two tests only differ by integration method, so any accuracy difference is attributable to
-        // the method (trapezoidal is O(h^2), backward Euler O(h)) rather than to the step size.
+        // Same h = dt / tau = 1e-4 as the backward-Euler case above, so the two tests differ only in
+        // integration method (trapezoidal is O(h^2), backward Euler O(h)).
         var circuit = new Circuit();
         circuit.Add(new VoltageSource(1, Circuit.Ground, new DcWaveform(vs)));
         circuit.Add(new Resistor(1, 2, r));
@@ -96,9 +94,8 @@ public class RcChargingTests
         CircuitState state = null!;
 
         // 100 ms, tau = 1 ms => 100 tau. The analytic residual e^-100 is far below double precision,
-        // so any leftover error at the end is the solver's, not the exponential's - which is what
-        // makes this a meaningful steady-state assertion. h = dt / tau = 1e-3 here; the looser step
-        // is affordable because only the final value is checked, not the path taken to reach it.
+        // so any error left at the end is the solver's. h = dt / tau = 1e-3 here; the looser step is
+        // fine because only the final value is checked.
         for (int i = 0; i < 100_000; i++)
             state = circuit.Step(dt);
 
